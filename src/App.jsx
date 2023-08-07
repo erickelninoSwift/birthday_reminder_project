@@ -1,35 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./index.css";
+import { data } from "./data";
+import { useState } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
+  console.log(data);
+  const [persons, setPerson] = useState(data);
+
+  const buttonSyle = {
+    height: "50px",
+    width: "100%",
+    fontSize: "12px",
+    marginTop: "30px",
+    alignSelf: "center",
+  };
+
+  const clearList = () => {
+    setPerson([]);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h3 className="title">{persons.length} Birthday Reminder</h3>
+      <section className="container">
+        <article>
+          <ul className="">
+            {persons.map((currentPerson) => {
+              return (
+                <UserPerson
+                  key={currentPerson.id}
+                  currentPerson={currentPerson}
+                />
+              );
+            })}
+          </ul>
+        </article>
+        <article>
+          <button
+            style={buttonSyle}
+            type="button"
+            className="btn btn-block"
+            onClick={clearList}
+          >
+            Clear list
+          </button>
+        </article>
+      </section>
     </>
-  )
+  );
 }
 
-export default App
+export const UserPerson = ({ currentPerson }) => {
+  const { image, name, age } = currentPerson;
+  const style1 = {
+    width: "80px",
+    height: "80px",
+    borderRadius: "40px",
+    objectFit: "cover",
+    marginTop: "10px",
+  };
+  return (
+    <li className="list">
+      <section>
+        <img src={image} alt="erick#1" style={style1}></img>
+      </section>
+      <div className="user-details">
+        <p>Name: {name}</p>
+        <p>Age : {age}</p>
+      </div>
+    </li>
+  );
+};
+
+export default App;
